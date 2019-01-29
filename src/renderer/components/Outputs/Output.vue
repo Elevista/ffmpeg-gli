@@ -131,7 +131,7 @@ export default {
 .output:first-child{ margin-bottom:8px;}
 .output:not(:first-child){ margin-top: 8px;margin-bottom:8px;}
 .mu-card-header{display: flex;flex-direction: row;align-items: center;padding-bottom: 0px;height: 57px;justify-content: space-between;}
-.name{margin:0;padding:0 6px;min-height: 0;overflow:hidden;text-overflow: ellipsis;font-size: 15px;flex:1}
+.name{margin:0;padding:6px;min-height: 0;overflow:hidden;text-overflow: ellipsis;font-size: 15px;flex:1}
 .draggable{min-height: 40px;}
 .draggable::-webkit-scrollbar { display: none; }
 </style>
