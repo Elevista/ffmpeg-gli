@@ -6,51 +6,27 @@
   "license": "ISC",
   "main": "./dist/electron/main.js",
   "scripts": {
-    "build": "node .electron-vue/build.js && electron-builder",
-    "build:dir": "node .electron-vue/build.js && electron-builder --dir",
-    "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
-    "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
-    "dev": "node .electron-vue/dev-runner.js",
-    "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter src",
-    "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix src",
+    "build": "node config/build.js && electron-builder",
+    "build:dir": "node config/build.js && electron-builder --dir",
+    "build:clean": "cross-env BUILD_TARGET=clean node config/build.js",
+    "dev": "node config/dev-runner.js",
+    "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter src config",
+    "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix src config",
     "pack": "npm run pack:main && npm run pack:renderer",
-    "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
-    "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
+    "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config config/webpack.main.config.js",
+    "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config config/webpack.renderer.config.js",
     "postinstall": ""
   },
   "build": {
     "productName": "ffmpeg-gli",
     "appId": "com.elevista.ffmpeggli",
     "directories": {
-      "output": "build"
+      "output": "build",
+      "buildResources": "static"
     },
     "files": [
       "dist/electron/**/*"
-    ],
-    "dmg": {
-      "contents": [
-        {
-          "x": 410,
-          "y": 150,
-          "type": "link",
-          "path": "/Applications"
-        },
-        {
-          "x": 130,
-          "y": 150,
-          "type": "file"
-        }
-      ]
-    },
-    "mac": {
-      "icon": "build/icons/icon.icns"
-    },
-    "win": {
-      "icon": "build/icons/icon.ico"
-    },
-    "linux": {
-      "icon": "build/icons"
-    }
+    ]
   },
   "dependencies": {
     "vue": "^2.5.16",

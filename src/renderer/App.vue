@@ -16,7 +16,7 @@ import Inputs from './components/Inputs/Inputs.vue'
 import Outputs from './components/Outputs/Outputs.vue'
 
 export default {
-  name: 'Index',
+  name: 'App',
   components: { Inputs, Outputs }
 }
 </script>

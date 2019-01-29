@@ -8,18 +8,15 @@ const del = require('del')
 const webpack = require('webpack')
 const Multispinner = require('multispinner')
 
-
 const mainConfig = require('./webpack.main.config')
 const rendererConfig = require('./webpack.renderer.config')
-const webConfig = require('./webpack.web.config')
 
-const doneLog = chalk.bgGreen.white(' DONE ') + ' '
-const errorLog = chalk.bgRed.white(' ERROR ') + ' '
-const okayLog = chalk.bgBlue.white(' OKAY ') + ' '
+const doneLog = `${chalk.bgGreen.white(' DONE ')} `
+const errorLog = `${chalk.bgRed.white(' ERROR ')} `
+const okayLog = `${chalk.bgBlue.white(' OKAY ')} `
 const isCI = process.env.CI || false
 
 if (process.env.BUILD_TARGET === 'clean') clean()
-else if (process.env.BUILD_TARGET === 'web') web()
 else build()
 
 function clean () {
@@ -49,7 +46,7 @@ function build () {
   })
 
   pack(mainConfig).then(result => {
-    results += result + '\n\n'
+    results += `${result}\n\n`
     m.success('main')
   }).catch(err => {
     m.error('main')
@@ -59,7 +56,7 @@ function build () {
   })
 
   pack(rendererConfig).then(result => {
-    results += result + '\n\n'
+    results += `${result}\n\n`
     m.success('renderer')
   }).catch(err => {
     m.error('renderer')
@@ -81,10 +78,10 @@ function pack (config) {
           chunks: false,
           colors: true
         })
-        .split(/\r?\n/)
-        .forEach(line => {
-          err += `    ${line}\n`
-        })
+          .split(/\r?\n/)
+          .forEach(line => {
+            err += `    ${line}\n`
+          })
 
         reject(err)
       } else {
@@ -94,21 +91,6 @@ function pack (config) {
         }))
       }
     })
-  })
-}
-
-function web () {
-  del.sync(['dist/web/*', '!.gitkeep'])
-  webConfig.mode = 'production'
-  webpack(webConfig, (err, stats) => {
-    if (err || stats.hasErrors()) console.log(err)
-
-    console.log(stats.toString({
-      chunks: false,
-      colors: true
-    }))
-
-    process.exit()
   })
 }
 

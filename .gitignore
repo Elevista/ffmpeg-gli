@@ -1,8 +1,7 @@
 .DS_Store
 .vscode
 dist
-build/*
-!build/icons
+build
 node_modules/
 npm-debug.log
 npm-debug.log.*

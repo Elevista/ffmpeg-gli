@@ -27,20 +27,20 @@ function logStats (proc, data) {
       colors: true,
       chunks: false
     }).split(/\r?\n/).forEach(line => {
-      log += '  ' + line + '\n'
+      log += `  ${line}\n`
     })
   } else {
     log += `  ${data}\n`
   }
 
-  log += '\n' + chalk.yellow.bold(`┗ ${new Array(28 + 1).join('-')}`) + '\n'
+  log += `\n${chalk.yellow.bold(`┗ ${new Array(28 + 1).join('-')}`)}\n`
 
   console.log(log)
 }
 
 function startRenderer () {
   return new Promise((resolve, reject) => {
-    rendererConfig.entry.renderer = [path.join(__dirname, 'dev-client')].concat(rendererConfig.entry.renderer)
+    // rendererConfig.entry.renderer = [path.join(__dirname, 'dev-client')].concat(rendererConfig.entry.renderer)
     rendererConfig.mode = 'development'
     const compiler = webpack(rendererConfig)
     hotMiddleware = webpackHotMiddleware(compiler, {
@@ -128,7 +128,7 @@ function startElectron () {
   // }
 
   electronProcess = spawn(electron, args)
-  
+
   electronProcess.stdout.on('data', data => {
     electronLog(data, 'blue')
   })
@@ -142,14 +142,14 @@ function startElectron () {
 }
 
 function electronLog (data, color) {
-  let log = data.toString().split(/\r?\n/).join('\n')+'\n'
+  let log = `  ${data.toString().split(/\r?\n/).join('\n  ')}\n`
   if (/[0-9A-z]+/.test(log)) {
     console.log(
-      chalk[color].bold('┏ Electron -------------------') +
-      '\n\n' +
-      log +
-      chalk[color].bold('┗ ----------------------------') +
-      '\n'
+      `${chalk[color].bold('┏ Electron -------------------')
+      }\n\n${
+        log
+      }${chalk[color].bold('┗ ----------------------------')
+      }\n`
     )
   }
 }
@@ -169,7 +169,7 @@ function greeting () {
       space: false
     })
   } else console.log(chalk.yellow.bold('\n  electron-vue'))
-  console.log(chalk.blue('  getting ready...') + '\n')
+  console.log(`${chalk.blue('  getting ready...')}\n`)
 }
 
 function init () {
