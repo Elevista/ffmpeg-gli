@@ -1,5 +1,6 @@
 import { app, BrowserWindow } from 'electron'
 import path from 'path'
+
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -22,15 +23,12 @@ function createWindow () {
     title: 'FFmpeg GLI',
     width: 1024,
     height: 720,
+    show: false,
     icon: path.join(__static, 'icon.png'),
   })
   mainWindow.setMenu(null)
-
+  mainWindow.on('closed', () => { mainWindow = null })
   mainWindow.loadURL(winURL)
-
-  mainWindow.on('closed', () => {
-    mainWindow = null
-  })
 }
 
 app.on('ready', createWindow)
