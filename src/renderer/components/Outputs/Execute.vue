@@ -3,13 +3,13 @@
     <mu-list>
       <mu-list-item>
         <mu-list-item-action v-if="error">
-          <mu-icon value="error" color="error"/>
+          <mu-icon value="error" color="error" />
         </mu-list-item-action>
         <mu-list-item-action v-else-if="complete">
-          <mu-icon value="check" color="success"/>
+          <mu-icon value="check" color="success" />
         </mu-list-item-action>
         <mu-list-item-action v-else>
-          <mu-circular-progress/>
+          <mu-circular-progress />
         </mu-list-item-action>
         <mu-list-item-title><b>{{ error?'Error':complete?'Complete':'Processing' }}</b></mu-list-item-title>
       </mu-list-item>

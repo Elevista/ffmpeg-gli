@@ -1,16 +1,16 @@
 <template>
   <mu-card class="input">
     <mu-card-header>
-      <mu-icon :value="icon" class="icon" color="rgba(0,0,0,0.54)"/>
+      <mu-icon :value="icon" class="icon" color="rgba(0,0,0,0.54)" />
       <span class="name">{{ input.name }}</span>
       <mu-button small icon color="rgba(0,0,0,0.7)" @click="$emit('remove')">
-        <mu-icon value="clear"/>
+        <mu-icon value="clear" />
       </mu-button>
     </mu-card-header>
     <mu-card-text>
       <mu-list>
         <draggable :value="input.streams" :options="draggableOptions">
-          <stream v-for="stream of input.streams" :stream="stream" :key="stream.key"/>
+          <stream v-for="stream of input.streams" :key="stream.key" :stream="stream" />
         </draggable>
       </mu-list>
     </mu-card-text>

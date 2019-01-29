@@ -1,7 +1,7 @@
 <template>
   <mu-list-item class="stream" button @click.native.stop="$store.commit('setSelectedElement',stream)">
     <mu-list-item-action>
-      <mu-icon :value="icon"/>
+      <mu-icon :value="icon" />
     </mu-list-item-action>
     <mu-list-item-content>
       <mu-list-item-title>{{ stream.codec }} [{{ stream.input }}:{{ stream.stream }}]</mu-list-item-title>
@@ -9,7 +9,7 @@
     </mu-list-item-content>
     <mu-list-item-action style="min-width:20px">
       <mu-button small icon color="rgba(0,0,0,0.7)" @click.stop="$emit('remove')">
-        <mu-icon value="clear"/>
+        <mu-icon value="clear" />
       </mu-button>
     </mu-list-item-action>
   </mu-list-item>

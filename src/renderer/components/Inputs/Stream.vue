@@ -1,7 +1,7 @@
 <template>
   <mu-list-item class="stream" button>
     <mu-list-item-action>
-      <mu-icon :value="icon"/>
+      <mu-icon :value="icon" />
     </mu-list-item-action>
     <mu-list-item-content>
       <mu-list-item-title>{{ stream.codec }} [{{ stream.input }}:{{ stream.stream }}]</mu-list-item-title>

@@ -2,17 +2,17 @@
   <mu-card class="output">
     <mu-card-header>
       <mu-button icon color="rgba(0,0,0,0.7)" @click.native="$store.commit('setSelectedElement',output)">
-        <mu-icon :value="icon"/>
+        <mu-icon :value="icon" />
       </mu-button>
-      <mu-text-field v-model="name" style="flex:1" class="name" @click.native.stop/>
+      <mu-text-field v-model="name" style="flex:1" class="name" @click.native.stop />
       <mu-button small icon color="rgba(0,0,0,0.7)" @click="selectDir">
-        <mu-icon value="folder_open"/>
+        <mu-icon value="folder_open" />
       </mu-button>
     </mu-card-header>
     <mu-card-text>
       <mu-list>
         <draggable :value="streams" :options="draggableOptions" class="draggable" @change="onChange">
-          <stream v-for="(stream,idx) of streams" :stream="stream" :key="stream.key" @remove="onRemoved(idx)"/>
+          <stream v-for="(stream,index) of streams" :key="stream.key" :stream="stream" @remove="onRemoved(index)" />
         </draggable>
       </mu-list>
     </mu-card-text>

@@ -3,19 +3,19 @@
     <mu-flex class="title" align-items="center" justify-content="between">
       Outputs
       <mu-button :disabled="!outputs.length" small icon color="rgba(0,0,0,0.7)" @click="openExecute">
-        <mu-icon value="launch"/>
+        <mu-icon value="launch" />
       </mu-button>
     </mu-flex>
     <draggable :value="outputs" :options="draggableOptions" class="cards" style="list-style-type: none;" @change="onChange">
-      <Output v-for="(output,idx) of outputs" :output="output" :key="output.key" :streamDefaultOption="streamDefaultOption" :idx="idx" @remove="onRemoved(idx)"/>
+      <Output v-for="(output,idx) of outputs" :key="output.key" :output="output" :stream-default-option="streamDefaultOption" :idx="idx" @remove="onRemoved(idx)" />
     </draggable>
-    <execute :show.sync="show"/>
+    <execute :show.sync="show" />
     <mu-dialog :open.sync="dialog.show" :esc-press-close="false" :overlay-close="false">
       <span style="white-space: pre-wrap;">{{ dialog.content }}</span>
       <mu-button slot="actions" flat color="primary" @click="dialog.deffered.resolve(true)">Yes</mu-button>
       <mu-button slot="actions" flat @click="dialog.deffered.resolve(false)">No</mu-button>
     </mu-dialog>
-    <options/>
+    <options />
   </mu-flex>
 </template>
 <script>

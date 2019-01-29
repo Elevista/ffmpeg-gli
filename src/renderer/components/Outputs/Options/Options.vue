@@ -28,7 +28,7 @@
       <div slot="header">{{ selected.name }}</div>
       {{ selected.option }} {{ value }}<br>
       {{ selected.info }}
-      <Option v-if="selected.type" :type="selected.type" :value.sync="value" :key="selected.option"/>
+      <Option v-if="selected.type" :key="selected.option" :type="selected.type" :value.sync="value" />
       <mu-button slot="action" flat @click="close">Cancel</mu-button>
       <mu-button v-if="options[selected.option]" slot="action" flat @click="remove">Remove</mu-button>
       <mu-button slot="action" :disabled="selected.value&&!value" flat color="primary" @click="save">Save</mu-button>
