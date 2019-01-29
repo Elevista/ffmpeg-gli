@@ -1,8 +1,14 @@
-# ffmpeg-gli
+# FFmpeg GLI [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+FFmpeg GUI Desktop Application ( Electron + Vue.js )
 
-> An electron-vue project
+<p align="center">
+  <img width="800" src="https://user-images.githubusercontent.com/9513647/51928667-c5190d80-2439-11e9-8b4f-aecf54b41408.gif">
+</p>
 
-#### Build Setup
+## Requirement
+FFmpeg 4.* version installed and can run `ffmpeg` command.
+
+## Build Setup
 
 ``` bash
 # install dependencies
@@ -16,7 +22,3 @@ npm run build
 
 
 ```
-
----
-
-This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue)@[8fae476](https://github.com/SimulatedGREG/electron-vue/tree/8fae4763e9d225d3691b627e83b9e09b56f6c935) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
