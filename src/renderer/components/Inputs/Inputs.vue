@@ -3,12 +3,12 @@
     <mu-flex class="title" align-items="center" justify-content="between">
       Inputs
       <mu-button small icon color="rgba(0,0,0,0.7)" @click="openFiles">
-        <mu-icon value="add"/>
+        <mu-icon value="add" />
       </mu-button>
     </mu-flex>
     <draggable :value="inputs" :options="draggableOptions" class="cards" style="list-style-type: none;">
       <!-- eslint-disable-next-line vue/html-self-closing -->
-      <Input v-for="(input,idx) of inputs" :input="input" :key="input.key" @remove="onRemove(idx)"/>
+      <Input v-for="(input,idx) of inputs" :key="input.key" :input="input" @remove="onRemove(idx)" />
     </draggable>
   </mu-flex>
 </template>

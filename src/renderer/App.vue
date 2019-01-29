@@ -2,18 +2,18 @@
   <mu-container class="container" fluid @drop.prevent @dragover.prevent>
     <mu-row fill align-items="stretch" style="max-width:100%">
       <mu-col span="12" md="6" fill class="d-flex">
-        <inputs class="area"/>
+        <inputs class="area" />
       </mu-col>
       <mu-col span="12" md="6" fill class="d-flex">
-        <outputs class="area"/>
+        <outputs class="area" />
       </mu-col>
     </mu-row>
   </mu-container>
 </template>
 
 <script>
-import Inputs from '../components/Inputs/Inputs.vue'
-import Outputs from '../components/Outputs/Outputs.vue'
+import Inputs from './components/Inputs/Inputs.vue'
+import Outputs from './components/Outputs/Outputs.vue'
 
 export default {
   name: 'Index',

@@ -10,6 +10,7 @@ module.exports = {
     'vue/require-v-for-key':'off',
     'vue/require-default-prop':'off',
     'comma-dangle':'off',
+    'vue/singleline-html-element-content-newline':'off',
     'prefer-template':'error'
   },
   extends: [
@@ -20,6 +21,7 @@ module.exports = {
   globals: {
     _: true,
     Vue: true,
-    moment: true
+    moment: true,
+    __static:true,
   }
 }
