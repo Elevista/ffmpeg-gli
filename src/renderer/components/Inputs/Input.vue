@@ -19,6 +19,8 @@
 
 <script>
 import Stream from './Stream.vue'
+import { exts } from '~/utils/fileTypes'
+
 export default {
   name: 'Input',
   components: { Stream },
@@ -39,17 +41,14 @@ export default {
   computed: {
     isVideo () {
       const { type = '', ext = '' } = this.input
-      const exts = ['.mp4', '.avi', '.mkv', '.ts', '.mpeg', '.webm']
-      return type.startsWith('video') || exts.includes(ext)
+      return type.startsWith('video') || exts.video.includes(ext)
     },
     isAudio () {
       const { type = '', ext = '' } = this.input
-      const exts = ['.m4a', '.mp3', '.aac', '.ac3']
-      return type.startsWith('audio') || exts.includes(ext)
+      return type.startsWith('audio') || exts.audio.includes(ext)
     },
     isSubtitle () {
-      const exts = ['.smi', '.aas', '.srt', '.sub']
-      return exts.includes(this.input.ext)
+      return exts.subtitle.includes(this.input.ext)
     },
     icon () {
       const { isVideo, isAudio, isSubtitle } = this

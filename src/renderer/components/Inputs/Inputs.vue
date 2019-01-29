@@ -20,8 +20,8 @@ import { remote } from 'electron'
 import fs from 'fs'
 import { promisify } from 'util'
 import { lookup as mime } from 'mime-types'
+import { filters } from '~/utils/fileTypes'
 const stat = promisify(fs.stat)
-
 export default {
   name: 'Inputs',
   components: { Input },
@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     async openFiles () {
-      const selectedFiles = remote.dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'] })
+      const selectedFiles = remote.dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'], filters })
       if (!selectedFiles) return
       const files = []
       for (const path of selectedFiles) {

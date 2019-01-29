@@ -22,6 +22,7 @@
 import Stream from './Stream.vue'
 import { extname, join, basename, dirname } from 'path'
 import { remote } from 'electron'
+import { exts, filters } from '~/utils/fileTypes'
 
 export default {
   name: 'Output',
@@ -64,16 +65,13 @@ export default {
       }
     },
     isVideo () {
-      const exts = ['.mp4', '.avi', '.mkv', '.ts', '.mpeg', '.webm']
-      return exts.includes(extname(this.editName || ''))
+      return exts.video.includes(extname(this.editName || ''))
     },
     isAudio () {
-      const exts = ['.m4a', '.mp3', '.aac', '.ac3']
-      return exts.includes(extname(this.editName || ''))
+      return exts.audio.includes(extname(this.editName || ''))
     },
     isSubtitle () {
-      const exts = ['.smi', '.aas', '.srt', '.sub']
-      return exts.includes(extname(this.editName || ''))
+      return exts.subtitle.includes(extname(this.editName || ''))
     },
     icon () {
       const { isVideo, isAudio, isSubtitle } = this
@@ -85,7 +83,7 @@ export default {
   },
   methods: {
     selectDir () {
-      const path = remote.dialog.showSaveDialog({ defaultPath: this.path })
+      const path = remote.dialog.showSaveDialog({ defaultPath: this.path, filters })
       if (path) this.path = path
     },
     getOptionCommands (cls, idx) {

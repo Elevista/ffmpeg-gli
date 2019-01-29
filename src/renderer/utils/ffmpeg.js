@@ -3,21 +3,25 @@ import Deffered from './Deffered'
 import { remote } from 'electron'
 
 const types = { V: [], A: [], S: [] }
-export const extensions = []
+const formats = { D: [], E: [] }
+export const demuxers = formats.D
+export const muxers = formats.E
 try {
-  _.chain(childProcess.execSync('ffmpeg -encoders')).toString().split(/--+/).get(1).trim().split('\n').forEach(x => {
-    const res = /([\w.]+) ([\w]+)[ ]+(.+)/.exec(x)
+  _.chain(childProcess.execSync('ffmpeg -encoders')).toString().split(/--+/).get(1).split('\n').forEach(x => {
+    const res = /^ (V|A|S)[\w.]+ ([\w]+)[ ]+(.+)/.exec(x)
     if (!res) return
     const [, type, name, info] = res
-    _(types[type[0]]).push({ name, info }).value()
+    _(types[type]).push({ name, info }).value()
   }).value()
-  const muxers = _.chain(childProcess.execSync('ffmpeg -muxers')).toString().split(/--+/).get(1).trim().split('\n').flatMap(x => {
-    const res = /[ ]+E[ ]+([\w,]+)[ ]+(.+)/.exec(x)
-    if (!res) return []
-    const [, name, info] = res
-    return name.includes(',') ? name.split(',').map(x => ({ name: x.trim(), info })) : [{ name, info }]
+  _.chain(childProcess.execSync('ffmpeg -formats')).toString().split(/--+/).get(1).split('\n').forEach(x => {
+    const res = /^ ([\w ]{2}) ([\w,]+)[ ]+(.+)/.exec(x)
+    if (!res) return
+    const [, [D, E], names, info] = res
+    names.split(',').forEach(name => {
+      if (D === 'D') formats.D.push({ name, info })
+      if (E === 'E') formats.E.push({ name, info })
+    })
   }).value()
-  extensions.push(...muxers)
 } catch (e) {
   remote.dialog.showMessageBox({
     type: 'error',
