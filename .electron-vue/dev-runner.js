@@ -142,11 +142,7 @@ function startElectron () {
 }
 
 function electronLog (data, color) {
-  let log = ''
-  data = data.toString().split(/\r?\n/)
-  data.forEach(line => {
-    log += `  ${line}\n`
-  })
+  let log = data.toString().split(/\r?\n/).join('\n')+'\n'
   if (/[0-9A-z]+/.test(log)) {
     console.log(
       chalk[color].bold('┏ Electron -------------------') +

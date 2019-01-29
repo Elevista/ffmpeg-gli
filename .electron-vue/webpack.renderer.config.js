@@ -1,12 +1,11 @@
 'use strict'
 
-process.env.BABEL_ENV = 'renderer'
+// process.env.BABEL_ENV = 'renderer'
 
 const path = require('path')
 const { dependencies } = require('../package.json')
 const webpack = require('webpack')
 
-const BabiliWebpackPlugin = require('babili-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -43,15 +42,10 @@ let rendererConfig = {
         test: /\.html$/,
         use: 'vue-html-loader'
       },
-      {
-        test: /\.js$/,
-        use: 'babel-loader',
-        exclude: /node_modules/
-      },
-      {
-        test: /\.node$/,
-        use: 'node-loader'
-      },
+      // {
+      //   test: /\.node$/,
+      //   use: 'node-loader'
+      // },
       {
         test: /\.vue$/,
         use: {
@@ -153,7 +147,6 @@ if (process.env.NODE_ENV === 'production') {
   rendererConfig.devtool = ''
 
   rendererConfig.plugins.push(
-    new BabiliWebpackPlugin(),
     new CopyWebpackPlugin([
       {
         from: path.join(__dirname, '../static'),

@@ -1,11 +1,10 @@
 'use strict'
 
-process.env.BABEL_ENV = 'web'
+// process.env.BABEL_ENV = 'web'
 
 const path = require('path')
 const webpack = require('webpack')
 
-const BabiliWebpackPlugin = require('babili-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -30,12 +29,12 @@ let webConfig = {
         test: /\.html$/,
         use: 'vue-html-loader'
       },
-      {
-        test: /\.js$/,
-        use: 'babel-loader',
-        include: [ path.resolve(__dirname, '../src/renderer') ],
-        exclude: /node_modules/
-      },
+      // {
+      //   test: /\.js$/,
+      //   use: 'babel-loader',
+      //   include: [ path.resolve(__dirname, '../src/renderer') ],
+      //   exclude: /node_modules/
+      // },
       {
         test: /\.vue$/,
         use: {
@@ -73,7 +72,7 @@ let webConfig = {
     ]
   },
   plugins: [
-    new webpack.ProvidePlugin({ _: 'lodash', moment: 'moment', Vue: 'vue' })
+    new webpack.ProvidePlugin({ _: 'lodash', moment: 'moment', Vue: 'vue' }),
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({filename: 'styles.css'}),
     new HtmlWebpackPlugin({
@@ -114,7 +113,6 @@ if (process.env.NODE_ENV === 'production') {
   webConfig.devtool = ''
 
   webConfig.plugins.push(
-    new BabiliWebpackPlugin(),
     new CopyWebpackPlugin([
       {
         from: path.join(__dirname, '../static'),
