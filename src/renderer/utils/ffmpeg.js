@@ -1,20 +1,34 @@
 import childProcess from 'child_process'
 import Deffered from './Deffered'
+import { remote } from 'electron'
 
 const types = { V: [], A: [], S: [] }
-_.chain(childProcess.execSync('ffmpeg -encoders')).toString().split(/--+/).get(1).trim().split('\n').forEach(x => {
-  const res = /([\w.]+) ([\w]+)[ ]+(.+)/.exec(x)
-  if (!res) return
-  const [, type, name, info] = res
-  _(types[type[0]]).push({ name, info }).value()
-}).value()
+export const extensions = []
+try {
+  _.chain(childProcess.execSync('ffmpeg -encoders')).toString().split(/--+/).get(1).trim().split('\n').forEach(x => {
+    const res = /([\w.]+) ([\w]+)[ ]+(.+)/.exec(x)
+    if (!res) return
+    const [, type, name, info] = res
+    _(types[type[0]]).push({ name, info }).value()
+  }).value()
+  const muxers = _.chain(childProcess.execSync('ffmpeg -muxers')).toString().split(/--+/).get(1).trim().split('\n').flatMap(x => {
+    const res = /[ ]+E[ ]+([\w,]+)[ ]+(.+)/.exec(x)
+    if (!res) return []
+    const [, name, info] = res
+    return name.includes(',') ? name.split(',').map(x => ({ name: x.trim(), info })) : [{ name, info }]
+  }).value()
+  extensions.push(...muxers)
+} catch (e) {
+  remote.dialog.showMessageBox({
+    type: 'error',
+    title: 'FFmpeg GLI',
+    message: `Failed to get FFmpeg information.
+Please check "ffmpeg" command exist.
+(Support FFmpeg 4.* version)`
+  })
+  remote.getCurrentWindow().close()
+}
 
-export const extensions = _.chain(childProcess.execSync('ffmpeg -muxers')).toString().split(/--+/).get(1).trim().split('\n').flatMap(x => {
-  const res = /[ ]+E[ ]+([\w,]+)[ ]+(.+)/.exec(x)
-  if (!res) return []
-  const [, name, info] = res
-  return name.includes(',') ? name.split(',').map(x => ({ name: x.trim(), info })) : [{ name, info }]
-}).value()
 export const encoders = { Video: types.V, Audio: types.A, Subtitle: types.S }
 export function spawn (args) {
   const deffered = new Deffered()
