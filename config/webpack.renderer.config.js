@@ -23,7 +23,7 @@ let whiteListedModules = ['vue']
 let rendererConfig = {
   devtool: '#inline-source-map',
   entry: {
-    renderer: path.join(__dirname, '../src/renderer/main.js')
+    renderer: [path.join(__dirname, '../src/renderer/main.js')]
   },
   externals: [
     ...Object.keys(dependencies || {}).filter(d => !whiteListedModules.includes(d))
@@ -117,20 +117,6 @@ let rendererConfig = {
   target: 'electron-renderer'
 }
 
-/**
- * Adjust rendererConfig for development settings
- */
-if (process.env.NODE_ENV !== 'production') {
-  rendererConfig.plugins.push(
-    new webpack.DefinePlugin({
-      '__static': `"${path.join(__dirname, '../static').replace(/\\/g, '\\\\')}"`
-    })
-  )
-}
-
-/**
- * Adjust rendererConfig for production settings
- */
 if (process.env.NODE_ENV === 'production') {
   rendererConfig.devtool = ''
 
@@ -147,6 +133,13 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
+    })
+  )
+} else {
+  rendererConfig.entry.renderer.push('webpack-hot-middleware/client?noInfo=true&reload=true')
+  rendererConfig.plugins.push(
+    new webpack.DefinePlugin({
+      '__static': `"${path.join(__dirname, '../static').replace(/\\/g, '\\\\')}"`
     })
   )
 }
