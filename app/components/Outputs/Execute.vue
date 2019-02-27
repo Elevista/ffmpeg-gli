@@ -65,13 +65,18 @@ export default {
       this.open = false
     },
     run () {
+      const flatOption = (option, value) => {
+        if (_.isArray(value)) return _.map(value, v => [option, value])
+        if (_.isObject(value)) return _.map(value, (v, k) => [option, `${k}="${v}"`])
+        return [option, value]
+      }
       const args = [
         '-y',
         _.map(this.inputs, input => ['-i', input.path]),
         _.map(this.outputs, output => [
           _.map(output.streams, stream => ['-map', `${stream.input}:${stream.stream}`]),
-          _.map(output.streams, (stream, i) => _.map(stream.options, (v, k) => [`${k}:${i}`, v])),
-          _.map(output.options, (v, k) => [k, v]),
+          _.map(output.streams, (stream, i) => _.map(stream.options, (v, k) => flatOption(`${k}:${i}`, v))),
+          _.map(output.options, (v, k) => flatOption(k, v)),
           path.join(output.dir, output.name),
         ])
       ]

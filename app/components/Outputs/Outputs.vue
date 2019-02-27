@@ -73,7 +73,7 @@ export default {
     onInputAdded (newIndex, input) {
       const { dir, ext } = input
       const name = `${input.name.slice(0, -ext.length)}-output${ext}`
-      const streams = input.streams.map(x => Object.assign(x, {
+      const streams = input.streams.map(x => Object.assign({}, x, {
         options: this.streamDefaultOption(x),
         key: Math.random().toString().slice(2)
       }))
