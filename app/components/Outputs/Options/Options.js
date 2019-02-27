@@ -56,7 +56,8 @@ export default {
         option: '-c',
         name: 'Codec',
         info: 'codec',
-        type: [{ name: 'copy', info: 'Direct copy' }, ...encoders.Video],
+        type: 'Select',
+        options: [{ name: 'copy', info: 'Direct copy' }, ...encoders.Video],
       },
       {
         option: '-r',
@@ -86,7 +87,8 @@ export default {
         option: '-pass',
         name: 'Pass',
         info: 'select the pass number (1 to 3)',
-        type: [1, 2, 3].map(x => ({ name: x, info: `${x}` })),
+        type: 'Select',
+        options: [1, 2, 3].map(x => ({ name: x, info: `${x}` })),
       },
       {
         option: '-aspect',
@@ -100,6 +102,13 @@ export default {
         info: 'set the number of video frames to output',
         type: 'Number',
       },
+      {
+        option: '-metadata',
+        name: 'Metadata',
+        info: 'Set a metadata key/value pair.',
+        type: 'Metadata',
+        options: [{ name: 'rotate', info: 'Rotate' }]
+      }
 
     ],
     Audio: [
@@ -107,7 +116,8 @@ export default {
         option: '-c',
         name: 'Codec',
         info: 'codec',
-        type: [{ name: 'copy', info: 'Direct copy' }, ...encoders.Audio],
+        type: 'Select',
+        options: [{ name: 'copy', info: 'Direct copy' }, ...encoders.Audio],
       },
       {
         option: '-r',
@@ -146,7 +156,8 @@ export default {
         option: '-c',
         name: 'Codec',
         info: 'codec',
-        type: [{ name: 'copy', info: 'Direct copy' }, ...encoders.Subtitle],
+        type: 'Select',
+        options: [{ name: 'copy', info: 'Direct copy' }, ...encoders.Subtitle],
       },
 
     ],
