@@ -19,15 +19,15 @@
     <execute :show.sync="show" />
     <mu-dialog :open.sync="dialog.show" :esc-press-close="false" :overlay-close="false">
       <span style="white-space: pre-wrap;">{{ dialog.content }}</span>
-      <mu-button slot="actions" flat color="primary" @click="dialog.deffered.resolve(true)">Yes</mu-button>
-      <mu-button slot="actions" flat @click="dialog.deffered.resolve(false)">No</mu-button>
+      <mu-button slot="actions" flat color="primary" @click="dialog.deferred.resolve(true)">Yes</mu-button>
+      <mu-button slot="actions" flat @click="dialog.deferred.resolve(false)">No</mu-button>
     </mu-dialog>
     <options />
   </div>
 </template>
 <script>
 import Options from './Options/Options.vue'
-import Deffered from '~/utils/Deffered'
+import Deferred from '~/utils/Deferred'
 import Output from './Output.vue'
 import Execute from './Execute.vue'
 import path from 'path'
@@ -51,7 +51,7 @@ export default {
       dialog: {
         show: false,
         content: '',
-        deffered: null
+        deferred: null
       }
     }
   },
@@ -63,9 +63,9 @@ export default {
       return stream.type === 'Subtitle' ? {} : { '-c': 'copy' }
     },
     showDialog (content) {
-      const deffered = new Deffered()
-      Object.assign(this.dialog, { content, deffered, show: true })
-      return deffered.promise.finally(() => { this.dialog.show = false })
+      const deferred = new Deferred()
+      Object.assign(this.dialog, { content, deferred, show: true })
+      return deferred.promise.finally(() => { this.dialog.show = false })
     },
     onStreamAdded (newIndex, stream) {
       stream.options = this.streamDefaultOption(stream)
