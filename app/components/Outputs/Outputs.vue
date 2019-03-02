@@ -2,9 +2,14 @@
   <div class="outputs flex-column d-flex">
     <div class="title d-flex justify-content-between align-items-center">
       Outputs
-      <mu-button :disabled="!outputs.length" small icon color="rgba(0,0,0,0.7)" @click="openExecute">
-        <mu-icon value="launch" />
-      </mu-button>
+      <span>
+        <mu-button :disabled="!outputs.length" small icon color="rgba(0,0,0,0.7)">
+          <mu-icon value="tune" />
+        </mu-button>
+        <mu-button :disabled="!outputs.length" small icon color="rgba(0,0,0,0.7)" @click="openExecute">
+          <mu-icon value="launch" />
+        </mu-button>
+      </span>
     </div>
     <draggable :value="outputs" :options="draggableOptions" class="cards" style="list-style-type: none;" @change="onChange">
       <Output v-for="(output,idx) of outputs" :key="output.key" :output="output" :stream-default-option="streamDefaultOption" :idx="idx"

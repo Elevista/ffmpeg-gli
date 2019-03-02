@@ -2,9 +2,11 @@
   <div class="inputs flex-column d-flex" @drop.prevent="drop">
     <div class="title d-flex justify-content-between align-items-center">
       Inputs
-      <mu-button small icon color="rgba(0,0,0,0.7)" @click="openFiles">
-        <mu-icon value="add" />
-      </mu-button>
+      <span>
+        <mu-button small icon color="rgba(0,0,0,0.7)" @click="openFiles">
+          <mu-icon value="add" />
+        </mu-button>
+      </span>
     </div>
     <draggable :value="inputs" :options="draggableOptions" class="cards" style="list-style-type: none;">
       <!-- eslint-disable-next-line vue/html-self-closing -->
