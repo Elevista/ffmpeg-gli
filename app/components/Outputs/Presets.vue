@@ -1,16 +1,19 @@
 <template>
-  <mu-menu cover placement="top-end" class="presets" :open.sync="menu">
-    <mu-button small icon>
+  <mu-menu cover placement="top-end" class="presets d-flex" :open.sync="menu" :class="{disabled}">
+    <mu-button small icon :disabled="disabled" :color="color">
       <mu-icon value="tune" />
     </mu-button>
     <mu-list slot="content">
       <mu-sub-header>Presets</mu-sub-header>
-      <mu-list-item v-for="[key,preset] of presetEntries" :key="key" button @click="load(preset)">
-        <mu-list-item-action><mu-icon :value="icon[preset.type]||'insert_drive_file'" /></mu-list-item-action>
+      <mu-list-item v-for="[key,preset] of presetEntries" :key="key" button @click="click(preset)">
+        <mu-list-item-action><mu-icon :value="icon[preset.type]||'insert_drive_file'" :color="currentKey==key?'primary':''" /></mu-list-item-action>
         <mu-list-item-title>{{ preset.name }}</mu-list-item-title>
       </mu-list-item>
-      <mu-divider v-if="presetEntries.length" />
-      <mu-list-item button @click="save">
+      <mu-list-item v-if="!presetEntries.length">
+        <mu-list-item-title>no preset</mu-list-item-title>
+      </mu-list-item>
+      <mu-divider v-if="presetEntries.length && options" />
+      <mu-list-item v-if="options" button @click="save">
         <mu-list-item-action><mu-icon value="save" /></mu-list-item-action>
         <mu-list-item-title>save</mu-list-item-title>
       </mu-list-item>
@@ -27,8 +30,11 @@ import Deferred from '~/utils/Deferred'
 export default {
   name: 'Presets',
   props: {
+    all: Boolean,
+    color: String,
     element: { type: Object, default: () => ({}) },
-    options: Object
+    options: Object,
+    disabled: Boolean
   },
   data () {
     return {
@@ -42,13 +48,28 @@ export default {
   computed: {
     type () { return this.element.type },
     presets () { return this.$store.state.presets },
-    current () { return this.element.preset },
-    presetEntries () { return Object.entries(this.presets).filter(([, v]) => v.type === this.type) }
+    currentKey () { return this.current && this.current.key },
+    current () { return this.presets[this.element.options && this.element.options.$preset] },
+    presetEntries () { return Object.entries(this.presets).filter(([, v]) => this.all || v.type === this.type) }
   },
   methods: {
+    click (preset) {
+      if (preset.key === this.currentKey) {
+        this.$store.commit('setOptions', [this.element, Object.assign({}, this.element.options)])
+      } else this.load(preset)
+    },
     load (preset) {
       this.menu = false
-      this.$store.commit('setOptions', [this.element, preset.options])
+      const options = Object.assign({}, preset.options)
+      Object.defineProperty(options, '$preset', { value: preset.key })
+      if (this.all) {
+        const { type } = preset
+        const { $store: { state: { outputs } } } = this
+        const elements = this.type ? outputs : _(outputs).map('streams').flatten().filter({ type }).value()
+        elements.forEach(element => this.$store.commit('setOptions', [element, options]))
+      } else if (this.element.key) this.$store.commit('setOptions', [this.element, options])
+      else return
+      this.$root.$emit('snackbar', 'Preset applied')
     },
     remove ({ key }) {
       const presets = Object.assign({}, this.presets)
@@ -56,15 +77,20 @@ export default {
       this.$store.commit('setPresets', presets)
     },
     make ({ key = performance.now() + Math.random(), name } = {}) {
-      const { options, type } = this
+      const { type } = this
+      const options = Object.assign({}, this.options)
+      Object.defineProperty(options, '$preset', { value: key })
       return { name, key, type, options }
     },
     save () {
       this.menu = false
-      if (!this.current) return this.create()
+      this.current ? this.update() : this.create()
+    },
+    update () {
       const { current } = this
       const presets = Object.assign({}, this.presets, { [current.key]: this.make(current) })
       this.$store.commit('setPresets', presets)
+      this.$root.$emit('snackbar', 'Preset updated')
     },
     async create () {
       this.deferred = new Deferred()
@@ -76,6 +102,7 @@ export default {
       const preset = this.make({ name: this.name })
       const presets = Object.assign({ [preset.key]: preset }, this.presets)
       this.$store.commit('setPresets', presets)
+      this.$root.$emit('snackbar', 'Preset created')
     }
   }
 }
@@ -83,4 +110,7 @@ export default {
 <style scoped>
 .presets /deep/ .mu-menu-activator{display: flex;}
 .mu-button {text-transform:none;}
+.disabled{cursor: not-allowed;}
+.disabled /deep/ .mu-menu-activator{ pointer-events: none;}
+
 </style>

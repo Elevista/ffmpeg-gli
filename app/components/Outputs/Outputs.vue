@@ -2,10 +2,8 @@
   <div class="outputs flex-column d-flex">
     <div class="title d-flex justify-content-between align-items-center">
       Outputs
-      <span>
-        <mu-button :disabled="!outputs.length" small icon color="rgba(0,0,0,0.7)">
-          <mu-icon value="tune" />
-        </mu-button>
+      <span class="d-flex flex-row">
+        <Presets :disabled="!outputs.length" color="rgba(0,0,0,0.7)" all />
         <mu-button :disabled="!outputs.length" small icon color="rgba(0,0,0,0.7)" @click="openExecute">
           <mu-icon value="launch" />
         </mu-button>
@@ -26,6 +24,7 @@
   </div>
 </template>
 <script>
+import Presets from './Presets.vue'
 import Options from './Options/Options.vue'
 import Deferred from '~/utils/Deferred'
 import Output from './Output.vue'
@@ -37,7 +36,7 @@ const stat = promisify(fs.stat)
 
 export default {
   name: 'Outputs',
-  components: { Output, Options, Execute },
+  components: { Output, Options, Execute, Presets },
   data () {
     return {
       show: false,
