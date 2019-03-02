@@ -127,4 +127,5 @@ export default {
 <style scoped>
   .mu-button{text-transform: none;min-width: 34px;margin: 4px;}
   .options{max-height: 100%;overflow: auto;}
+  .options /deep/ .mu-item { display: block; height: auto;}
 </style>
