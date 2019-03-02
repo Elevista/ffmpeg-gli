@@ -55,7 +55,7 @@ export default {
       if (isVideo) return 'videocam'
       if (isAudio) return 'audiotrack'
       if (isSubtitle) return 'subtitles'
-      return 'input'
+      return 'insert_drive_file'
     },
     info () {
       const { lastModified, type } = this.input
