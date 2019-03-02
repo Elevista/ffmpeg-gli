@@ -8,6 +8,11 @@
       <mu-list-item v-for="[key,preset] of presetEntries" :key="key" button @click="click(preset)">
         <mu-list-item-action><mu-icon :value="icon[preset.type]||'insert_drive_file'" :color="currentKey==key?'primary':''" /></mu-list-item-action>
         <mu-list-item-title>{{ preset.name }}</mu-list-item-title>
+        <mu-list-item-action>
+          <mu-button small icon color="rgba(0,0,0,0.7)" @click.stop="remove(key)">
+            <mu-icon value="clear" />
+          </mu-button>
+        </mu-list-item-action>
       </mu-list-item>
       <mu-list-item v-if="!presetEntries.length">
         <mu-list-item-title>no preset</mu-list-item-title>
@@ -71,10 +76,11 @@ export default {
       else return
       this.$root.$emit('snackbar', 'Preset applied')
     },
-    remove ({ key }) {
+    remove (key) {
       const presets = Object.assign({}, this.presets)
       delete presets[key]
       this.$store.commit('setPresets', presets)
+      this.$root.$emit('snackbar', 'Preset removed')
     },
     make ({ key = performance.now() + Math.random(), name } = {}) {
       const { type } = this
@@ -102,6 +108,7 @@ export default {
       const preset = this.make({ name: this.name })
       const presets = Object.assign({ [preset.key]: preset }, this.presets)
       this.$store.commit('setPresets', presets)
+      this.load(preset)
       this.$root.$emit('snackbar', 'Preset created')
     }
   }
