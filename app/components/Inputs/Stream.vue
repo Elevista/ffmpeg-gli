@@ -19,7 +19,7 @@ export default {
         case 'Video': return 'videocam'
         case 'Audio': return 'audiotrack'
         case 'Subtitle': return 'subtitles'
-        default: return 'input'
+        default: return 'insert_drive_file'
       }
     }
   }

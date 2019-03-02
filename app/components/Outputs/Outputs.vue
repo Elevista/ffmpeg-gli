@@ -2,9 +2,17 @@
   <div class="outputs flex-column d-flex">
     <div class="title d-flex justify-content-between align-items-center">
       Outputs
-      <mu-button :disabled="!outputs.length" small icon color="rgba(0,0,0,0.7)" @click="openExecute">
-        <mu-icon value="launch" />
-      </mu-button>
+      <span class="d-flex flex-row">
+        <mu-button small icon color="rgba(0,0,0,0.7)" class="addAll" :disabled="!inputs.length"
+                   @click="addAll"
+        >
+          <mu-icon value="reply_all" />
+        </mu-button>
+        <Presets :disabled="!outputs.length" color="rgba(0,0,0,0.7)" all />
+        <mu-button :disabled="!outputs.length" small icon color="rgba(0,0,0,0.7)" @click="openExecute">
+          <mu-icon value="launch" />
+        </mu-button>
+      </span>
     </div>
     <draggable :value="outputs" :options="draggableOptions" class="cards" style="list-style-type: none;" @change="onChange">
       <Output v-for="(output,idx) of outputs" :key="output.key" :output="output" :stream-default-option="streamDefaultOption" :idx="idx"
@@ -14,15 +22,16 @@
     <execute :show.sync="show" />
     <mu-dialog :open.sync="dialog.show" :esc-press-close="false" :overlay-close="false">
       <span style="white-space: pre-wrap;">{{ dialog.content }}</span>
-      <mu-button slot="actions" flat color="primary" @click="dialog.deffered.resolve(true)">Yes</mu-button>
-      <mu-button slot="actions" flat @click="dialog.deffered.resolve(false)">No</mu-button>
+      <mu-button slot="actions" flat color="primary" @click="dialog.deferred.resolve(true)">Yes</mu-button>
+      <mu-button slot="actions" flat @click="dialog.deferred.resolve(false)">No</mu-button>
     </mu-dialog>
     <options />
   </div>
 </template>
 <script>
+import Presets from './Presets.vue'
 import Options from './Options/Options.vue'
-import Deffered from '~/utils/Deffered'
+import Deferred from '~/utils/Deferred'
 import Output from './Output.vue'
 import Execute from './Execute.vue'
 import path from 'path'
@@ -32,7 +41,7 @@ const stat = promisify(fs.stat)
 
 export default {
   name: 'Outputs',
-  components: { Output, Options, Execute },
+  components: { Output, Options, Execute, Presets },
   data () {
     return {
       show: false,
@@ -46,28 +55,32 @@ export default {
       dialog: {
         show: false,
         content: '',
-        deffered: null
+        deferred: null
       }
     }
   },
   computed: {
-    outputs () { return this.$store.state.outputs }
+    outputs () { return this.$store.state.outputs },
+    inputs () { return this.$store.state.inputs }
   },
   methods: {
     streamDefaultOption (stream) {
       return stream.type === 'Subtitle' ? {} : { '-c': 'copy' }
     },
     showDialog (content) {
-      const deffered = new Deffered()
-      Object.assign(this.dialog, { content, deffered, show: true })
-      return deffered.promise.finally(() => { this.dialog.show = false })
+      const deferred = new Deferred()
+      Object.assign(this.dialog, { content, deferred, show: true })
+      return deferred.promise.finally(() => { this.dialog.show = false })
+    },
+    addAll () {
+      this.inputs.forEach(input => this.onAdded(this.outputs.length, input))
     },
     onStreamAdded (newIndex, stream) {
       stream.options = this.streamDefaultOption(stream)
       const input = this.$store.state.inputs[stream.input]
       const { dir, ext } = input
       const name = `${input.name.slice(0, -ext.length)}-output${ext}`
-      const output = { class: 'Output', dir, name, key: Math.random().toString().slice(2), streams: [stream], options: {} }
+      const output = { class: 'Output', dir, name, key: performance.now() + Math.random(), streams: [stream], options: {} }
       const outputs = this.outputs.slice()
       outputs.splice(newIndex, 0, output)
       this.$store.commit('setOutputs', outputs)
@@ -77,9 +90,9 @@ export default {
       const name = `${input.name.slice(0, -ext.length)}-output${ext}`
       const streams = input.streams.map(x => Object.assign({}, x, {
         options: this.streamDefaultOption(x),
-        key: Math.random().toString().slice(2)
+        key: performance.now() + Math.random()
       }))
-      const output = { class: 'Output', dir, name, key: Math.random().toString().slice(2), streams, options: {} }
+      const output = { class: 'Output', dir, name, key: performance.now() + Math.random(), streams, options: {} }
       const outputs = this.outputs.slice()
       outputs.splice(newIndex, 0, output)
       this.$store.commit('setOutputs', outputs)
@@ -121,4 +134,5 @@ export default {
 </script>
 <style scoped>
 .cards{ list-style-type: none; flex:1; padding: 8px; }
+.addAll{transform: rotate(180deg) rotateX(-180deg);}
 </style>

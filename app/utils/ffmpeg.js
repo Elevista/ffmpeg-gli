@@ -1,5 +1,5 @@
 import childProcess from 'child_process'
-import Deffered from './Deffered'
+import Deferred from './Deferred'
 import { remote } from 'electron'
 
 const types = { V: [], A: [], S: [] }
@@ -35,7 +35,7 @@ Please check "ffmpeg" command exist.
 
 export const encoders = { Video: types.V, Audio: types.A, Subtitle: types.S }
 export function spawn (args) {
-  const deffered = new Deffered()
+  const deferred = new Deferred()
   const ffmpeg = childProcess.spawn('ffmpeg', _.flattenDeep(args))
   let progress = () => {}
   let started = false
@@ -52,20 +52,20 @@ export function spawn (args) {
   })
   ffmpeg.on('exit', (code, signal) => {
     const fullLog = log.join('\n')
-    if (code === 0) return deffered.resolve({ code, fullLog, signal })
+    if (code === 0) return deferred.resolve({ code, fullLog, signal })
     const message = _.get(fullLog.match(/\[[^\]@]+@[^\]]+\][ ]*(.+)$/m), 1) || _.get(out.trim().match(/.+$/), 0)
     const error = _.get(fullLog.match(/^Error.+/m), 0)
-    deffered.reject({ code, message, error, fullLog, signal })
+    deferred.reject({ code, message, error, fullLog, signal })
   })
-  deffered.kill = v => { ffmpeg.kill(v); deffered.reject(false) }
-  deffered.progress = cb => { progress = cb; return deffered }
-  return deffered
+  deferred.kill = v => { ffmpeg.kill(v); deferred.reject(false) }
+  deferred.progress = cb => { progress = cb; return deferred }
+  return deferred
 }
 export default function ffmpeg (...args) {
   const ffmpeg = childProcess.spawn('ffmpeg', _.flattenDeep(args))
-  const deffered = new Deffered()
+  const deferred = new Deferred()
   const log = []
   ffmpeg.stderr.on('data', data => log.push(data))
-  ffmpeg.on('exit', (code, signal) => deffered.resolve(log.join('\n')))
-  return deffered.promise
+  ffmpeg.on('exit', (code, signal) => deferred.resolve(log.join('\n')))
+  return deferred.promise
 }

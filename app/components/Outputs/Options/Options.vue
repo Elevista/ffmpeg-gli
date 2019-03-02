@@ -1,7 +1,10 @@
 <template>
   <mu-bottom-sheet :open="!!selectedElement" class="options" @close="closeSheet">
     <mu-list>
-      <mu-sub-header>Options</mu-sub-header>
+      <mu-sub-header class="d-flex justify-content-between align-items-center">
+        Options
+        <Presets v-if="selectedElement" :element="selectedElement" :options.sync="options" />
+      </mu-sub-header>
       <mu-list-item>
         <template v-for="(v,option) of options">
           <mu-button
@@ -34,11 +37,12 @@
   </mu-bottom-sheet>
 </template>
 <script>
+import Presets from '../Presets.vue'
 import Options from './Options'
 import Option from './Option.vue'
 export default {
   name: 'Options',
-  components: { Option },
+  components: { Option, Presets },
   data () {
     return { show: false, selected: {}, value: null }
   },
@@ -107,6 +111,7 @@ export default {
 }
 </script>
 <style scoped>
+  .mu-sub-header{padding-right:16px}
   .mu-button{text-transform: none;min-width: 34px;margin: 4px;}
   .options{max-height: 100%;overflow: auto;}
   .options /deep/ .mu-item { display: block; height: auto;}

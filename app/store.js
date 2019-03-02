@@ -7,6 +7,7 @@ export default new Vuex.Store({
     inputs: [],
     outputs: [],
     selectedElement: null,
+    presets: JSON.parse(localStorage.presets || '{}'),
     inputDir: ''
   },
   mutations: {
@@ -50,6 +51,13 @@ export default new Vuex.Store({
     setOption (state, [ options, option, value ]) {
       if (value) Vue.set(options, option, value)
       else Vue.delete(options, option)
+    },
+    setOptions (state, [element, options]) {
+      Vue.set(element, 'options', options)
+    },
+    setPresets (state, presets) {
+      state.presets = presets
+      localStorage.presets = JSON.stringify(presets)
     }
   }
 })

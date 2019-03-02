@@ -2,6 +2,10 @@
   <div class="app d-flex flex-wrap" @drop.prevent @dragover.prevent>
     <inputs class="area col-12 col-md-6" />
     <outputs class="area col-12 col-md-6" />
+    <mu-snackbar :open.sync="snackbar.open">
+      {{ snackbar.message }}
+      <mu-button slot="action" flat color="secondary" @click="snackbar.open = false">Close</mu-button>
+    </mu-snackbar>
   </div>
 </template>
 
@@ -11,7 +15,23 @@ import Outputs from './components/Outputs/Outputs.vue'
 
 export default {
   name: 'App',
-  components: { Inputs, Outputs }
+  components: { Inputs, Outputs },
+  data () {
+    return {
+      snackbar: { open: false, message: '', timeout: null }
+
+    }
+  },
+  mounted () {
+    this.$root.$on('snackbar', async message => {
+      this.snackbar.message = message
+      this.snackbar.open = false
+      clearTimeout(this.snackbar.timeout)
+      await this.$nextTick()
+      this.snackbar.open = true
+      this.snackbar.timeout = setTimeout(() => { this.snackbar.open = false }, 2000)
+    })
+  }
 }
 </script>
 <style scoped>

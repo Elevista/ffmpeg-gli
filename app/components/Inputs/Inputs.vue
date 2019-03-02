@@ -2,9 +2,11 @@
   <div class="inputs flex-column d-flex" @drop.prevent="drop">
     <div class="title d-flex justify-content-between align-items-center">
       Inputs
-      <mu-button small icon color="rgba(0,0,0,0.7)" @click="openFiles">
-        <mu-icon value="add" />
-      </mu-button>
+      <span>
+        <mu-button small icon color="rgba(0,0,0,0.7)" @click="openFiles">
+          <mu-icon value="add" />
+        </mu-button>
+      </span>
     </div>
     <draggable :value="inputs" :options="draggableOptions" class="cards" style="list-style-type: none;">
       <!-- eslint-disable-next-line vue/html-self-closing -->
@@ -62,7 +64,7 @@ export default {
       const [codec, ...info] = etc.split(', ')
       const [input, stream] = id.split(':')
       const inputKey = this.$store.state.inputs[input].key
-      return { class: 'Stream', input, stream, key: Math.random().toString().slice(2), type, codec, info, inputKey }
+      return { class: 'Stream', input, stream, key: performance.now() + Math.random(), type, codec, info, inputKey }
     },
     async setStreams () {
       const res = await ffmpeg(this.inputs.map(x => ['-i', x.path]))
@@ -95,7 +97,7 @@ export default {
             type,
             dir: dirname(path),
             ext: extname(name),
-            key: Math.random().toString().slice(2),
+            key: performance.now() + Math.random(),
             streams: null
           }))
           dir = dirname(path)
