@@ -64,7 +64,7 @@ export default {
       const [codec, ...info] = etc.split(', ')
       const [input, stream] = id.split(':')
       const inputKey = this.$store.state.inputs[input].key
-      return { class: 'Stream', input, stream, key: Math.random().toString().slice(2), type, codec, info, inputKey }
+      return { class: 'Stream', input, stream, key: performance.now() + Math.random(), type, codec, info, inputKey }
     },
     async setStreams () {
       const res = await ffmpeg(this.inputs.map(x => ['-i', x.path]))
@@ -97,7 +97,7 @@ export default {
             type,
             dir: dirname(path),
             ext: extname(name),
-            key: Math.random().toString().slice(2),
+            key: performance.now() + Math.random(),
             streams: null
           }))
           dir = dirname(path)

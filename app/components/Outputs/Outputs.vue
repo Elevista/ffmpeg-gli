@@ -72,7 +72,7 @@ export default {
       const input = this.$store.state.inputs[stream.input]
       const { dir, ext } = input
       const name = `${input.name.slice(0, -ext.length)}-output${ext}`
-      const output = { class: 'Output', dir, name, key: Math.random().toString().slice(2), streams: [stream], options: {} }
+      const output = { class: 'Output', dir, name, key: performance.now() + Math.random(), streams: [stream], options: {} }
       const outputs = this.outputs.slice()
       outputs.splice(newIndex, 0, output)
       this.$store.commit('setOutputs', outputs)
@@ -82,9 +82,9 @@ export default {
       const name = `${input.name.slice(0, -ext.length)}-output${ext}`
       const streams = input.streams.map(x => Object.assign({}, x, {
         options: this.streamDefaultOption(x),
-        key: Math.random().toString().slice(2)
+        key: performance.now() + Math.random()
       }))
-      const output = { class: 'Output', dir, name, key: Math.random().toString().slice(2), streams, options: {} }
+      const output = { class: 'Output', dir, name, key: performance.now() + Math.random(), streams, options: {} }
       const outputs = this.outputs.slice()
       outputs.splice(newIndex, 0, output)
       this.$store.commit('setOutputs', outputs)
