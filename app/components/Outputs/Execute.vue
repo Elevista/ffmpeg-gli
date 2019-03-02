@@ -67,7 +67,7 @@ export default {
     run () {
       const flatOption = (option, value) => {
         if (_.isArray(value)) return _.map(value, v => [option, value])
-        if (_.isObject(value)) return _.map(value, (v, k) => [option, `${k}="${v}"`])
+        if (_.isObject(value)) return _.map(value, (v, k) => [option, `${k}=${v}`])
         return [option, value]
       }
       const args = [

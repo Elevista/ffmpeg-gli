@@ -25,23 +25,7 @@
       </mu-list-item>
     </mu-list>
     <mu-expansion-panel :style="{visibility:show?'visible':'hidden',opacity:show?1:0}" :expand.sync="show">
-      <div slot="header">{{ selected.name }}</div>
-
-      <template v-if="valueIsArray">
-        <span v-for="(v,i) of value" :key="i">
-          {{ selected.option }} {{ v }}<br>
-        </span>
-      </template>
-      <template v-else-if="valueIsObject">
-        <span v-for="(v,k) of value" :key="k">
-          {{ selected.option }} {{ k }}={{ v }}<br>
-        </span>
-      </template>
-      <template v-else>
-        {{ selected.option }} {{ value }}<br>
-      </template>
-
-      <p>{{ selected.info }}</p>
+      <span slot="header">{{ selected.name }}</span>
       <Option v-if="selected.type" :key="selected.option" :option="selected" :value.sync="value" />
       <mu-button slot="action" flat @click="close">Cancel</mu-button>
       <mu-button v-if="options[selected.option]" slot="action" flat @click="remove">Remove</mu-button>
@@ -59,8 +43,6 @@ export default {
     return { show: false, selected: {}, value: null }
   },
   computed: {
-    valueIsArray () { return _.isArray(this.value) },
-    valueIsObject () { return _.isObject(this.value) },
     unselectedOptionList () {
       return this.optionList.filter(({ option }) => !this.options[option])
     },

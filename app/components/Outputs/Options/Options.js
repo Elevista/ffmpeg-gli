@@ -103,7 +103,7 @@ export default {
         type: 'Number'
       },
       {
-        option: '-metadata',
+        option: '-metadata:s',
         name: 'Metadata',
         info: 'Set a metadata key/value pair.',
         type: 'Metadata',
