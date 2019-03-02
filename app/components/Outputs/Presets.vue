@@ -116,6 +116,7 @@ export default {
 </script>
 <style scoped>
 .presets /deep/ .mu-menu-activator{display: flex;}
+.mu-item-action:last-child .mu-icon-button{margin-right: -6px; }
 .mu-button {text-transform:none;}
 .disabled{cursor: not-allowed;}
 .disabled /deep/ .mu-menu-activator{ pointer-events: none;}
