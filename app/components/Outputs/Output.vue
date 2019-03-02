@@ -95,6 +95,7 @@ export default {
       }).filter(x => x).join(' ')
     },
     onStreamAdded (newIndex, st) {
+      if (_.find(this.streams, { key: st.key })) return // stream already exists
       const stream = _.cloneDeep(st)
       if (!stream.options) stream.options = this.streamDefaultOption(stream)
       const streams = this.streams.slice()
