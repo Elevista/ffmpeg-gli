@@ -3,6 +3,11 @@
     <div class="title d-flex justify-content-between align-items-center">
       Outputs
       <span class="d-flex flex-row">
+        <mu-button small icon color="rgba(0,0,0,0.7)" class="addAll" :disabled="!inputs.length"
+                   @click="addAll"
+        >
+          <mu-icon value="reply_all" />
+        </mu-button>
         <Presets :disabled="!outputs.length" color="rgba(0,0,0,0.7)" all />
         <mu-button :disabled="!outputs.length" small icon color="rgba(0,0,0,0.7)" @click="openExecute">
           <mu-icon value="launch" />
@@ -55,7 +60,8 @@ export default {
     }
   },
   computed: {
-    outputs () { return this.$store.state.outputs }
+    outputs () { return this.$store.state.outputs },
+    inputs () { return this.$store.state.inputs }
   },
   methods: {
     streamDefaultOption (stream) {
@@ -65,6 +71,9 @@ export default {
       const deferred = new Deferred()
       Object.assign(this.dialog, { content, deferred, show: true })
       return deferred.promise.finally(() => { this.dialog.show = false })
+    },
+    addAll () {
+      this.inputs.forEach(input => this.onAdded(this.outputs.length, input))
     },
     onStreamAdded (newIndex, stream) {
       stream.options = this.streamDefaultOption(stream)
@@ -125,4 +134,5 @@ export default {
 </script>
 <style scoped>
 .cards{ list-style-type: none; flex:1; padding: 8px; }
+.addAll{transform: rotate(180deg) rotateX(-180deg);}
 </style>
