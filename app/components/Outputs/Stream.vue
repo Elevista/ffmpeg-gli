@@ -33,7 +33,7 @@ export default {
     input (v = {}) {
       if (v.key !== this.stream.inputKey) this.$emit('remove')
     }
-  },
+  }
 }
 </script>
 <style scoped>

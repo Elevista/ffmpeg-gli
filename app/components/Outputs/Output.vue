@@ -38,7 +38,7 @@ export default {
           pull: true
         },
         animation: 150
-      },
+      }
     }
   },
   computed: {
@@ -79,7 +79,7 @@ export default {
       if (isAudio) return 'audiotrack'
       if (isSubtitle) return 'subtitles'
       return 'insert_drive_file'
-    },
+    }
   },
   methods: {
     selectDir () {
@@ -123,7 +123,7 @@ export default {
       if (moved) return this.onMoved(newIndex, oldIndex, stream)
       if (removed) return this.onRemoved(oldIndex)
     }
-  },
+  }
 }
 </script>
 

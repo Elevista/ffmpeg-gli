@@ -1,5 +1,7 @@
 <template>
-  <mu-flex class="inputs" fill style="max-width:100%" align-items="stretch" direction="column" @drop.prevent="drop">
+  <mu-flex class="inputs" fill style="max-width:100%" align-items="stretch" direction="column"
+           @drop.prevent="drop"
+  >
     <mu-flex class="title" align-items="center" justify-content="between">
       Inputs
       <mu-button small icon color="rgba(0,0,0,0.7)" @click="openFiles">

@@ -120,8 +120,8 @@ export default {
     save () {
       this.setOption(this.selected.option, !this.selected.type || this.value)
       this.close()
-    },
-  },
+    }
+  }
 }
 </script>
 <style scoped>

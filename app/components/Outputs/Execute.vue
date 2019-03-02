@@ -77,7 +77,7 @@ export default {
           _.map(output.streams, stream => ['-map', `${stream.input}:${stream.stream}`]),
           _.map(output.streams, (stream, i) => _.map(stream.options, (v, k) => flatOption(`${k}:${i}`, v))),
           _.map(output.options, (v, k) => flatOption(k, v)),
-          path.join(output.dir, output.name),
+          path.join(output.dir, output.name)
         ])
       ]
       this.process = spawn(args).progress(this.onProgress)
@@ -91,7 +91,7 @@ export default {
     },
     onProgress (v) {
       this.progress = v
-    },
-  },
+    }
+  }
 }
 </script>

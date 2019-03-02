@@ -61,7 +61,7 @@ export default {
       const { lastModified, type } = this.input
       return [moment(lastModified).format('YYYY.MM.DD'), type].filter(x => x).join(', ')
     }
-  },
+  }
 }
 </script>
 <style scoped>

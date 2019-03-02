@@ -8,8 +8,8 @@
   "scripts": {
     "start": "electron dev",
     "build": "webpack --mode=production && electron-builder",
-    "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter app",
-    "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix app"
+    "lint": "eslint -f node_modules/eslint-friendly-formatter --ext .js,.vue . --ignore-path .gitignore",
+    "lint:fix": "eslint -f node_modules/eslint-friendly-formatter --ext .js,.vue . --ignore-path .gitignore --fix"
   },
   "build": {
     "productName": "ffmpeg-gli",

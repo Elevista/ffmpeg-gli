@@ -22,7 +22,7 @@ export default {
         default: return 'input'
       }
     }
-  },
+  }
 }
 </script>
 <style scoped>

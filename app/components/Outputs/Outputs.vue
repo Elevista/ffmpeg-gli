@@ -7,7 +7,9 @@
       </mu-button>
     </mu-flex>
     <draggable :value="outputs" :options="draggableOptions" class="cards" style="list-style-type: none;" @change="onChange">
-      <Output v-for="(output,idx) of outputs" :key="output.key" :output="output" :stream-default-option="streamDefaultOption" :idx="idx" @remove="onRemoved(idx)" />
+      <Output v-for="(output,idx) of outputs" :key="output.key" :output="output" :stream-default-option="streamDefaultOption" :idx="idx"
+              @remove="onRemoved(idx)"
+      />
     </draggable>
     <execute :show.sync="show" />
     <mu-dialog :open.sync="dialog.show" :esc-press-close="false" :overlay-close="false">
