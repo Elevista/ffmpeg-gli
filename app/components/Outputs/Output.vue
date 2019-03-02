@@ -38,7 +38,7 @@ export default {
           pull: true
         },
         animation: 150
-      },
+      }
     }
   },
   computed: {
@@ -79,7 +79,7 @@ export default {
       if (isAudio) return 'audiotrack'
       if (isSubtitle) return 'subtitles'
       return 'insert_drive_file'
-    },
+    }
   },
   methods: {
     selectDir () {
@@ -95,6 +95,7 @@ export default {
       }).filter(x => x).join(' ')
     },
     onStreamAdded (newIndex, st) {
+      if (_.find(this.streams, { key: st.key })) return // stream already exists
       const stream = _.cloneDeep(st)
       if (!stream.options) stream.options = this.streamDefaultOption(stream)
       const streams = this.streams.slice()
@@ -123,7 +124,7 @@ export default {
       if (moved) return this.onMoved(newIndex, oldIndex, stream)
       if (removed) return this.onRemoved(oldIndex)
     }
-  },
+  }
 }
 </script>
 
@@ -134,4 +135,5 @@ export default {
 .name{margin:0;padding:6px;min-height: 0;overflow:hidden;text-overflow: ellipsis;font-size: 15px;flex:1}
 .draggable{min-height: 40px;}
 .draggable::-webkit-scrollbar { display: none; }
+.mu-list {overflow: hidden;}
 </style>

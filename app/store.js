@@ -7,7 +7,7 @@ export default new Vuex.Store({
     inputs: [],
     outputs: [],
     selectedElement: null,
-    inputDir: '',
+    inputDir: ''
   },
   mutations: {
     addInput (state, input) {

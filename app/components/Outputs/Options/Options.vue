@@ -1,5 +1,5 @@
 <template>
-  <mu-bottom-sheet :open="!!selectedElement" @close="closeSheet">
+  <mu-bottom-sheet :open="!!selectedElement" class="options" @close="closeSheet">
     <mu-list>
       <mu-sub-header>Options</mu-sub-header>
       <mu-list-item>
@@ -25,10 +25,8 @@
       </mu-list-item>
     </mu-list>
     <mu-expansion-panel :style="{visibility:show?'visible':'hidden',opacity:show?1:0}" :expand.sync="show">
-      <div slot="header">{{ selected.name }}</div>
-      {{ selected.option }} {{ value }}<br>
-      {{ selected.info }}
-      <Option v-if="selected.type" :key="selected.option" :type="selected.type" :value.sync="value" />
+      <span slot="header">{{ selected.name }}</span>
+      <Option v-if="selected.type" :key="selected.option" :option="selected" :value.sync="value" />
       <mu-button slot="action" flat @click="close">Cancel</mu-button>
       <mu-button v-if="options[selected.option]" slot="action" flat @click="remove">Remove</mu-button>
       <mu-button slot="action" :disabled="selected.value&&!value" flat color="primary" @click="save">Save</mu-button>
@@ -71,8 +69,8 @@ export default {
       if (this.options[option]) {
         this.value = this.options[option]
       }
-      const { type, info, name } = this.optionObject[option]
-      this.selected = { option, type, info, name }
+      const { type, info, name, options } = this.optionObject[option]
+      this.selected = { option, type, info, name, options }
       await this.$nextTick()
       this.show = true
     },
@@ -104,10 +102,12 @@ export default {
     save () {
       this.setOption(this.selected.option, !this.selected.type || this.value)
       this.close()
-    },
-  },
+    }
+  }
 }
 </script>
 <style scoped>
   .mu-button{text-transform: none;min-width: 34px;margin: 4px;}
+  .options{max-height: 100%;overflow: auto;}
+  .options /deep/ .mu-item { display: block; height: auto;}
 </style>

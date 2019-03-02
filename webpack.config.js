@@ -22,7 +22,7 @@ module.exports = function (env, { mode = 'development' } = {}) {
       node: { __dirname: !production, __filename: !production },
       output: {
         filename: 'renderer.js',
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist')
       }
     },
     main: {
@@ -40,8 +40,8 @@ module.exports = function (env, { mode = 'development' } = {}) {
         filename: 'main.js',
         libraryTarget: 'commonjs2',
         path: path.resolve(__dirname, 'dist')
-      },
-    },
+      }
+    }
   }
   if (mode === 'production') {
     Object.values(configs).forEach(c => c.plugins.push(new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' })))

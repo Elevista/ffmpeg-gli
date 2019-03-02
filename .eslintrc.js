@@ -5,13 +5,23 @@ module.exports = {
     node: true
   },
   rules:{
-    'vue/max-attributes-per-line':'off',
-    'vue/require-prop-types':'off',
-    'vue/require-v-for-key':'off',
-    'vue/require-default-prop':'off',
-    'comma-dangle':'off',
-    'vue/singleline-html-element-content-newline':'off',
-    'prefer-template':'error'
+    'prefer-const': 'error',
+    'no-var': 'error',
+    'prefer-template': 'error',
+    'vue/require-prop-types': 'off',
+    'vue/require-default-prop': 'off',
+    'vue/max-attributes-per-line': [
+      'error',
+      {
+        'singleline': 5,
+        'multiline': {
+          'max': 5,
+          'allowFirstLine': true
+        }
+      }
+    ],
+    'vue/singleline-html-element-content-newline': 'off',
+    'vue/component-name-in-template-casing': 'off'
   },
   extends: [
     'plugin:vue/recommended',
