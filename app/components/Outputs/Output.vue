@@ -134,4 +134,5 @@ export default {
 .name{margin:0;padding:6px;min-height: 0;overflow:hidden;text-overflow: ellipsis;font-size: 15px;flex:1}
 .draggable{min-height: 40px;}
 .draggable::-webkit-scrollbar { display: none; }
+.mu-list {overflow: hidden;}
 </style>

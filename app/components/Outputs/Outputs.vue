@@ -1,11 +1,11 @@
 <template>
-  <mu-flex class="outputs" fill style="max-width:100%" align-items="stretch" direction="column">
-    <mu-flex class="title" align-items="center" justify-content="between">
+  <div class="outputs flex-column d-flex">
+    <div class="title d-flex justify-content-between align-items-center">
       Outputs
       <mu-button :disabled="!outputs.length" small icon color="rgba(0,0,0,0.7)" @click="openExecute">
         <mu-icon value="launch" />
       </mu-button>
-    </mu-flex>
+    </div>
     <draggable :value="outputs" :options="draggableOptions" class="cards" style="list-style-type: none;" @change="onChange">
       <Output v-for="(output,idx) of outputs" :key="output.key" :output="output" :stream-default-option="streamDefaultOption" :idx="idx"
               @remove="onRemoved(idx)"
@@ -18,7 +18,7 @@
       <mu-button slot="actions" flat @click="dialog.deffered.resolve(false)">No</mu-button>
     </mu-dialog>
     <options />
-  </mu-flex>
+  </div>
 </template>
 <script>
 import Options from './Options/Options.vue'

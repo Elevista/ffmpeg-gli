@@ -1,14 +1,8 @@
 <template>
-  <mu-container class="container" fluid @drop.prevent @dragover.prevent>
-    <mu-row fill align-items="stretch" style="max-width:100%">
-      <mu-col span="12" md="6" fill class="d-flex">
-        <inputs class="area" />
-      </mu-col>
-      <mu-col span="12" md="6" fill class="d-flex">
-        <outputs class="area" />
-      </mu-col>
-    </mu-row>
-  </mu-container>
+  <div class="app d-flex flex-wrap" @drop.prevent @dragover.prevent>
+    <inputs class="area col-12 col-md-6" />
+    <outputs class="area col-12 col-md-6" />
+  </div>
 </template>
 
 <script>
@@ -21,12 +15,14 @@ export default {
 }
 </script>
 <style scoped>
-.container{
+.app{
   min-height: 100vh;
-  max-width: 100vw !important;
+  max-width: 100vw;
   overflow: hidden;
   display: flex;
+  padding: 0 8px;
 }
+.area {padding:0;}
 .area >>> .title{color: gray;padding:12px 12px 0 8px;}
 </style>
 <style>
