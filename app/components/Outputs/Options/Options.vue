@@ -3,7 +3,7 @@
     <mu-list>
       <mu-sub-header class="d-flex justify-content-between align-items-center">
         Options
-        <Presets v-if="selectedElement" :element="selectedElement" :options.sync="options" />
+        <Presets v-if="selectedElement" :element="selectedElement" :options="displayOptions" />
       </mu-sub-header>
       <mu-list-item>
         <template v-for="(v,option) of options">
@@ -62,6 +62,14 @@ export default {
     },
     options () {
       return this.selectedElement ? this.selectedElement.options : {}
+    },
+    displayOptions () {
+      return Object.assign({}, this.options, this.selected.option && { [this.selected.option]: this.value })
+    }
+  },
+  watch: {
+    options (n, o) {
+      if (n.$preset && n.$preset !== o.$preset && this.show) this.open(this.selected.option)
     }
   },
   methods: {
@@ -102,10 +110,11 @@ export default {
     remove () {
       this.setOption(this.selected.option, null)
       this.close()
+      this.$root.$emit('snackbar', 'Removed')
     },
     save () {
-      this.setOption(this.selected.option, !this.selected.type || this.value)
-      this.close()
+      this.setOption(this.selected.option, this.value)
+      this.$root.$emit('snackbar', 'Saved')
     }
   }
 }
