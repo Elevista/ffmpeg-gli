@@ -70,7 +70,7 @@ export default {
       if (this.all) {
         const { type } = preset
         const { $store: { state: { outputs } } } = this
-        const elements = this.type ? outputs : _(outputs).map('streams').flatten().filter({ type }).value()
+        const elements = type ? _(outputs).map('streams').flatten().filter({ type }).value() : outputs
         elements.forEach(element => this.$store.commit('setOptions', [element, options]))
       } else if (this.element.key) this.$store.commit('setOptions', [this.element, options])
       else return
