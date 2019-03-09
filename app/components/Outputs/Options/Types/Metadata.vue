@@ -16,7 +16,7 @@
       >
         <mu-option v-for="{name,info} of options" :key="name" :label="info" :value="name" />
       </mu-select>
-      <mu-text-field v-model.trim="selected.value" label="Value" :action-icon="selected.key&&selected.value&&'add'" :action-click="set"
+      <mu-text-field v-model.trim="selected.value" label="Value" :action-icon="actionIcon" :action-click="set"
                      class="value col-12 col-md-6"
                      @keydown.enter="set"
       />
@@ -33,6 +33,10 @@ export default {
     }
   },
   computed: {
+    actionIcon () {
+      const { selected: { key, value } } = this
+      return key && value && (this.value.hasOwnProperty(key) ? 'edit' : 'add')
+    },
     options () {
       return this.option.options
     }
