@@ -1,21 +1,25 @@
 <template>
   <component :is="type" v-if="Types[type]" :option="option" :value="value" @update:value="$emit('update:value',$event)" />
   <div v-else>
-    <template v-if="valueIsArray">
+    <template v-if="valueIs.array">
       <span v-for="(v,i) of value" :key="i">
         {{ option.option }} {{ v }}<br>
       </span>
     </template>
-    <template v-else-if="valueIsObject">
+    <template v-else-if="valueIs.object">
       <span v-for="(v,k) of value" :key="k">
         {{ option.option }} {{ k }}={{ v }}<br>
       </span>
+    </template>
+    <template v-else-if="valueIs.boolean">
+      {{ option.option }}
     </template>
     <template v-else>
       {{ option.option }} {{ value }}<br>
     </template>
     <p>{{ option.info }}</p>
     <mu-text-field v-if="type==='Number'" :value="value" type="tel" :label="type" @input="$emit('update:value',$event)" />
+    <mu-checkbox v-else-if="type==='Boolean'" :input-value="value" type="tel" :label="value?'Enabled':'Disabled'" @change="$emit('update:value',$event)" />
     <mu-select v-else-if="type==='Select'" ref="select" :value="value"
                filterable no-data-text="custom input" :label="type"
                @change.native="change"
@@ -36,8 +40,13 @@ export default {
     Types: () => Types,
     type () { return this.option.type },
     options () { return this.option.options },
-    valueIsArray () { return _.isArray(this.value) },
-    valueIsObject () { return _.isObject(this.value) }
+    valueIs () {
+      return {
+        array: _.isArray(this.value),
+        object: _.isObject(this.value),
+        boolean: typeof this.value === 'boolean'
+      }
+    }
   },
   methods: {
     change () {

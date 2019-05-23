@@ -66,6 +66,7 @@ export default {
     },
     run () {
       const flatOption = (option, value) => {
+        if (typeof value === 'boolean') return value ? [option] : []
         if (_.isArray(value)) return _.map(value, v => [option, value])
         if (_.isObject(value)) return _.map(value, (v, k) => [option, `${k}=${v}`])
         return [option, value]

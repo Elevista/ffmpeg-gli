@@ -33,9 +33,9 @@ export default {
     },
     {
       option: '-dn',
-      name: 'Diable data',
-      info: 'diable data',
-      type: null
+      name: 'Disable data',
+      info: 'disable data',
+      type: 'Boolean'
     },
     {
       option: '-pre',
