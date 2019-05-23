@@ -11,13 +11,13 @@
       <mu-select ref="select" :value="selected.key" filterable class=" keycol-12 col-md-6"
                  no-data-text="custom input"
                  label="Key"
-                 @change.exact="selected.key=$event"
-                 @change.native="change"
+                 @change.exact="selectChange"
+                 @change.native="inputChange"
       >
         <mu-option v-for="{name,info} of options" :key="name" :label="info" :value="name" />
       </mu-select>
       <mu-text-field v-model.trim="selected.value" label="Value" :action-icon="actionIcon" :action-click="set"
-                     class="value col-12 col-md-6"
+                     class="value col-12 col-md-6" @input="set"
                      @keydown.enter="set"
       />
     </div>
@@ -35,7 +35,7 @@ export default {
   computed: {
     actionIcon () {
       const { selected: { key, value } } = this
-      return key && value && (this.value.hasOwnProperty(key) ? 'edit' : 'add')
+      return key && value && ((this.value && this.value.hasOwnProperty(key)) ? 'edit' : 'add')
     },
     options () {
       return this.option.options
@@ -45,9 +45,14 @@ export default {
     select (value, key) {
       this.selected = { key, value }
     },
-    change () {
+    selectChange ($evt) {
+      this.selected.key = $evt
+      this.set()
+    },
+    inputChange () {
       const { $refs: { select }, selected } = this
       if (select.focusIndex < 0) selected.key = select.searchValue.trim()
+      this.set()
     },
     remove (key) {
       const value = Object.assign({}, this.value)

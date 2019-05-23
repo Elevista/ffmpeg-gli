@@ -30,9 +30,8 @@
     <mu-expansion-panel :style="{visibility:show?'visible':'hidden',opacity:show?1:0}" :expand.sync="show">
       <span slot="header">{{ selected.name }}</span>
       <Option v-if="selected.type" :key="selected.option" :option="selected" :value.sync="value" />
-      <mu-button slot="action" flat @click="close">Cancel</mu-button>
       <mu-button v-if="options[selected.option]" slot="action" flat @click="remove">Remove</mu-button>
-      <mu-button slot="action" :disabled="selected.value&&!value" flat color="primary" @click="save">Save</mu-button>
+      <mu-button slot="action" :disabled="selected.value&&!value" flat color="primary" @click="closeSheet">Close</mu-button>
     </mu-expansion-panel>
   </mu-bottom-sheet>
 </template>
@@ -70,6 +69,9 @@ export default {
   watch: {
     options (n, o) {
       if (n.$preset && n.$preset !== o.$preset && this.show) this.open(this.selected.option)
+    },
+    value (v) {
+      this.setOption(this.selected.option, v || null)
     }
   },
   methods: {
@@ -110,11 +112,6 @@ export default {
     remove () {
       this.setOption(this.selected.option, null)
       this.close()
-      this.$root.$emit('snackbar', 'Removed')
-    },
-    save () {
-      this.setOption(this.selected.option, this.value)
-      this.$root.$emit('snackbar', 'Saved')
     }
   }
 }
