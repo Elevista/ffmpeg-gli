@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "vue": "^2.5.16",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "mime-types": "^2.1.21",
     "moment": "^2.24.0",
     "muse-ui": "^3.0.1",
