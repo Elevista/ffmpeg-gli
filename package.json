@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "css-loader": "^2.1.0",
-    "electron": "^4.0.2",
+    "electron": "^15.5.5",
     "electron-builder": "^20.38.5",
     "electron-debug": "^2.1.0",
     "electron-devtools-installer": "^2.2.4",
